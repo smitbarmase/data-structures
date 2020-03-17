@@ -2,41 +2,45 @@
 #include <new>
 using namespace std;
 
-// Dynamic integer array class
-class IntArray {
+template <typename T>
+
+// Dynamic array class
+class DynamicArray {
   int capacity = 0;
   public:
     int len = 0;
-    int *arr;
+    T *arr;
 
-    IntArray(int);
+    DynamicArray(int); // Size
 
-    void add(int);
-    void removeAt(int);
-    bool remove(int);
+    void add(T); // Element
+    void removeAt(int); // Index
+    bool remove(T); // Element
 
     int size();
     bool isEmpty();
 
-    int get(int);
-    void set(int, int);
+    T get(int); // Index
+    void set(int, T); // Index, Element
 
     void deleteArray();
   };
 
 // Contructor
-IntArray::IntArray(int size) {
+template <typename T>
+DynamicArray<T>::DynamicArray(int size) {
   capacity = len = size;
-  arr = new(nothrow) int[size];
+  arr = new(nothrow) T[size];
   if (!arr) cout<<"Illegal size: " + size<<endl;
 }
 
 // Add an element to this dynamic array
-void IntArray::add(int element) {
+template <typename T>
+void DynamicArray<T>::add(T element) {
   if (len + 1 >= capacity) {
     if (capacity == 0) capacity = 1;
     else capacity *= 2; // Double the size
-    int * temp = new int[capacity]; // Temporary array of double the size
+    T * temp = new T[capacity]; // Temporary array of double the size
     for (int i = 0; i < size(); i++) temp[i] = arr[i]; // Assign all values
     arr = temp; // Set temporary array to original array
   }
@@ -46,8 +50,9 @@ void IntArray::add(int element) {
 // Removes the element at the specified index in this list.
 // If possible, avoid calling this method as it take O(n) time
 // to remove an element (since you have to reconstruct the array!)
-void IntArray::removeAt(int rm_index) {
-  int * temp = new int[capacity]; // Temporary array of double the size
+template <typename T>
+void DynamicArray<T>::removeAt(int rm_index) {
+  T * temp = new T[capacity]; // Temporary array of double the size
   for (int i = 0; i < rm_index; i++) temp[i] = arr[i]; // Assign all values
   for (int i = rm_index + 1; i < size(); i++) temp[i - 1] = arr[i]; // Assign all values
   arr = temp; // Set temporary array to original array
@@ -57,7 +62,8 @@ void IntArray::removeAt(int rm_index) {
 
 // Search and remove an element if it is found in the array
 // If possible, avoid calling this method as it take O(n) time
-bool IntArray::remove(int elem) {
+template <typename T>
+bool DynamicArray<T>::remove(T elem) {
   for (int i = 0; i < len; i++) {
     if (arr[i] == elem) {
       removeAt(i);
@@ -68,41 +74,46 @@ bool IntArray::remove(int elem) {
 }
 
 // Returns the size of the array
-int IntArray::size() {
+template <typename T>
+int DynamicArray<T>::size() {
   return len;
 }
 
 // Returns true/false on whether the array is empty
-bool IntArray::isEmpty() {
+template <typename T>
+bool DynamicArray<T>::isEmpty() {
   return len == 0;
 }
 
 // Get method for array
-int IntArray::get(int index) {
+template <typename T>
+T DynamicArray<T>::get(int index) {
   return arr[index];
 }
 
 // Set method for array
-void IntArray::set(int index, int elem) {
+template <typename T>
+void DynamicArray<T>::set(int index, T elem) {
   arr[index] = elem;
 }
 
 // Deleting array
-void IntArray::deleteArray() {
+template <typename T>
+void DynamicArray<T>::deleteArray() {
   delete[] arr;
 }
 
 int main() {
-  IntArray ar(2);
+  DynamicArray<char> ar(2);
 
-  ar.set(0, 1);
-  ar.set(1, 2);
+  ar.set(0, 'a');
+  ar.set(1, 'b');
 
-  ar.add(5);
-  ar.add(3);
-  ar.add(4);
+  ar.add('c');
+  ar.add('d');
+  ar.add('e');
 
-  ar.remove(5);
+  ar.remove('c');
 
   // Print dynamic array
   for (int i = 0; i < ar.size(); i++) cout<<ar.get(i)<<" ";
