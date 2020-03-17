@@ -6,13 +6,13 @@ template <typename T>
 
 // Dynamic array class
 class DynamicArray {
-  int capacity = 0;
   public:
     int len = 0;
     T *arr;
 
     DynamicArray(int); // Size
 
+    // Methods
     void add(T); // Element
     void removeAt(int); // Index
     bool remove(T); // Element
@@ -29,22 +29,19 @@ class DynamicArray {
 // Contructor
 template <typename T>
 DynamicArray<T>::DynamicArray(int size) {
-  capacity = len = size;
-  arr = new(nothrow) T[size];
+  len = size;
+  // Using malloc() function from <stdlib.h>
+  arr = (T*) malloc(size * sizeof(T));
   if (!arr) cout<<"Illegal size: " + size<<endl;
 }
 
 // Add an element to this dynamic array
 template <typename T>
 void DynamicArray<T>::add(T element) {
-  if (len + 1 >= capacity) {
-    if (capacity == 0) capacity = 1;
-    else capacity *= 2; // Double the size
-    T * temp = new T[capacity]; // Temporary array of double the size
-    for (int i = 0; i < size(); i++) temp[i] = arr[i]; // Assign all values
-    arr = temp; // Set temporary array to original array
-  }
-  arr[len++] = element;
+  // Using realloc() function from <stdlib.h>
+  arr = (T*) realloc(arr, (len + 1) * sizeof(T));
+  arr[len] = element;
+  len++;
 }
 
 // Removes the element at the specified index in this list.
@@ -52,12 +49,11 @@ void DynamicArray<T>::add(T element) {
 // to remove an element (since you have to reconstruct the array!)
 template <typename T>
 void DynamicArray<T>::removeAt(int rm_index) {
-  T * temp = new T[capacity]; // Temporary array of double the size
-  for (int i = 0; i < rm_index; i++) temp[i] = arr[i]; // Assign all values
-  for (int i = rm_index + 1; i < size(); i++) temp[i - 1] = arr[i]; // Assign all values
-  arr = temp; // Set temporary array to original array
+  T * temp = (T*) malloc(len * sizeof(T));
+  for (int i = 0; i < rm_index; i++) temp[i] = arr[i];
+  for (int i = rm_index + 1; i < size(); i++) temp[i - 1] = arr[i];
+  arr = (T*) realloc(temp, (len - 1) * sizeof(T));
   --len;
-  --capacity;
 }
 
 // Search and remove an element if it is found in the array
@@ -100,20 +96,19 @@ void DynamicArray<T>::set(int index, T elem) {
 // Deleting array
 template <typename T>
 void DynamicArray<T>::deleteArray() {
-  delete[] arr;
+  free(arr);
 }
 
 int main() {
-  DynamicArray<char> ar(2);
+  DynamicArray<int> ar(2);
 
-  ar.set(0, 'a');
-  ar.set(1, 'b');
+  ar.set(1, 2);
 
-  ar.add('c');
-  ar.add('d');
-  ar.add('e');
+  ar.add(3);
+  ar.add(4);
+  ar.add(5);
 
-  ar.remove('c');
+  ar.remove(4);
 
   // Print dynamic array
   for (int i = 0; i < ar.size(); i++) cout<<ar.get(i)<<" ";
