@@ -66,28 +66,17 @@ class DoublyLinkedList {
     // Remove a node at a particular index of doubly linked list, O(n)
     void removeAt(int index) {
       // Make sure the index provided is valid
-      try {
-        if (index < 0 || index >= size) {
-          throw 101;
-        }
-      } catch(...) {
-        cout<<"Invalid index";
-      }
+      try { if (index < 0 || index >= size) throw 101; } catch(...) { cout<<"Invalid index"; }
 
       Node *temp;
-      // To get result faster.
-      if (index < floor(size / 2)) {
+      if (index < floor(size / 2)) { // To get result faster.
         temp = head;
-        // Search from the front of the list
-        for (int i = 0; i != index; i++) {
+        for (int i = 0; i != index; i++) { // Search from the front of the list
           temp = temp->next;
         }
-      }
-      else
-      {
+      } else {
         temp = tail;
-        // Search from the back of the list
-        for (int i = size - 1; i != index; i--) {
+        for (int i = size - 1; i != index; i--) { // Search from the back of the list
           temp = temp->prev;
         }
       }
