@@ -63,7 +63,7 @@ class DoublyLinkedList {
       return tail.data;
     }
 
-    // Remove a node at a particular index, O(n)
+    // Remove a node at a particular index of doubly linked list, O(n)
     void removeAt(int index) {
       // Make sure the index provided is valid
       try {
@@ -166,6 +166,6 @@ int main()
 
   A.remove(5);
   A.print();
-  
+
   return 0;
 }
