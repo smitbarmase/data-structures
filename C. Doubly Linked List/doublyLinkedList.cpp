@@ -88,6 +88,7 @@ class DoublyLinkedList {
       temp->prev->next = temp->next;
       temp->next->prev = temp->prev;
       delete temp;
+      size--;
     }
 
     // Remove a particular value in the linked list, O(n)
@@ -99,6 +100,7 @@ class DoublyLinkedList {
           temp->next->prev = temp->prev;
           delete temp;
           return true;
+          size--;
         }
       }
       return false;

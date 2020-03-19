@@ -85,6 +85,7 @@ class SinglyLinkedList {
         temp->next = toDelete->next;
         delete toDelete;
       }
+      size--;
     }
 
     // Remove a particular value in the linked list, O(n)
@@ -93,6 +94,7 @@ class SinglyLinkedList {
       if (head->data == value) {
         head = head->next;
         delete temp;
+        size--;
         return true;
       }
       else
@@ -103,6 +105,7 @@ class SinglyLinkedList {
             Node *nextNode = temp->next->next;
             delete temp->next;
             temp->next = nextNode;
+            size--;
             return true;
           }
         }
