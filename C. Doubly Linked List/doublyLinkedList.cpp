@@ -1,5 +1,6 @@
 #include <iostream>
 #include <new>
+#include <cmath>
 using namespace std;
 
 // Doubly linked list class
@@ -33,7 +34,7 @@ class DoublyLinkedList {
         head = tail = temp;
       } else {
         tail->next = temp;
-        tail = tail->next;
+        tail = temp;
       }
       size++;
     }
@@ -44,6 +45,7 @@ class DoublyLinkedList {
       if (size == 0) {
         head = tail = temp;
       } else {
+        head->prev = temp;
         head = temp;
       }
       size++;
@@ -72,41 +74,38 @@ class DoublyLinkedList {
         cout<<"Invalid index";
       }
 
-      Node *temp = head;
-      if (index == 0) {
-        head = head->next;
-        delete temp;
+      Node *temp;
+      // To get result faster.
+      if (index < floor(size / 2)) {
+        temp = head;
+        // Search from the front of the list
+        for (int i = 0; i != index; i++) {
+          temp = temp->next;
+        }
       }
       else
       {
-        // Search from the front of the list
-        for (int i = 1; i != index; i++) {
-          temp = temp->next;
+        temp = tail;
+        // Search from the back of the list
+        for (int i = size - 1; i != index; i--) {
+          temp = temp->prev;
         }
-        Node *toDelete = temp->next;
-        temp->next = toDelete->next;
-        delete toDelete;
       }
+
+      temp->prev->next = temp->next;
+      temp->next->prev = temp->prev;
+      delete temp;
     }
 
     // Remove a particular value in the linked list, O(n)
     bool remove(T value) {
-      Node *temp = head;
-      if (head->data == value) {
-        head = head->next;
-        delete temp;
-        return true;
-      }
-      else
-      {
-        // Search for value
-        for (; temp->next != NULL; temp = temp->next) {
-          if (value == temp->next->data) {
-            Node *nextNode = temp->next->next;
-            delete temp->next;
-            temp->next = nextNode;
-            return true;
-          }
+      // Search for value
+      for (Node *temp = head; temp != NULL; temp = temp->next) {
+        if (value == temp->data) {
+          temp->prev->next = temp->next;
+          temp->next->prev = temp->prev;
+          delete temp;
+          return true;
         }
       }
       return false;
@@ -136,21 +135,37 @@ class DoublyLinkedList {
         cout<<trav->data<<" ";
         trav = trav->next;
       }
+      cout<<endl;
     }
 };
 
 int main()
 {
-  SinglyLinkedList<int> A;
-  A.add(1);
-  A.add(2);
-  A.add(3);
-  A.add(4);
-  A.add(5);
-  A.add(6);
-  A.removeAt(0);
-  A.removeAt(1);
+  DoublyLinkedList<int> A;
+
+  A.addToTail(2);
+  A.print();
+
+  A.addToTail(3);
+  A.print();
+
+  A.addToTail(4);
+  A.print();
+
+  A.addToTail(5);
+  A.print();
+
+  A.addToTail(6);
+  A.print();
+
+  A.addToHead(1);
+  A.print();
+
+  A.removeAt(3);
+  A.print();
+
   A.remove(5);
   A.print();
+  
   return 0;
 }
