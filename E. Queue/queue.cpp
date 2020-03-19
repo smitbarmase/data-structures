@@ -46,7 +46,7 @@ class Queue {
 
     // Check the value of the last node if it exists, O(1)
     T peekLast() {
-      try {if (size == 0) throw 101;} catch(...) {cout<<"Empty list";}
+      try {if (size == 0) throw 101;} catch(...) {cout<<"Empty queue";}
       return tail.data;
     }
 
