@@ -2,9 +2,9 @@
 #include <new>
 using namespace std;
 
-// Singly linked list class
+// Doubly linked list class
 template <typename T>
-class SinglyLinkedList {
+class DoublyLinkedList {
   public:
     class Node;
   private:
@@ -16,17 +16,19 @@ class SinglyLinkedList {
     class Node {
       public:
         T data;
+        Node *prev;
         Node *next;
         // Constructor
-        Node(T data = NULL, Node *next = NULL) {
+        Node(T data = NULL, Node *prev = NULL, Node *next = NULL) {
           this->data = data;
+          this->prev = prev;
           this->next = next;
         }
     };
 
     // Add a node to the tail of the linked list, O(1)
-    void add(T elem) {
-      Node *temp = new Node(elem);
+    void addToTail(T elem) {
+      Node *temp = new Node(elem, tail);
       if (size == 0) {
         head = tail = temp;
       } else {
@@ -37,11 +39,11 @@ class SinglyLinkedList {
     }
 
     // Add an element to the beginning of this linked list, O(1)
-    void addFirst(T elem) {
+    void addToHead(T elem) {
+      Node *temp = new Node(elem, NULL, head);
       if (size == 0) {
-        head = tail = new Node(elem);
+        head = tail = temp;
       } else {
-        Node *temp = new Node(elem, head);
         head = temp;
       }
       size++;
