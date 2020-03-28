@@ -1,7 +1,2 @@
 # Data-Structures
-• Singly Linked List
-• Doubly Linked List
-• Stack
-• Queue
-• Priority Queue
-• Hashes
+Implementations of Data Structure in Python
