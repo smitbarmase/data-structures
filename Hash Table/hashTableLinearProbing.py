@@ -6,7 +6,7 @@ class HashTableLinearProbing(base._HashTableOpenAddressingBase):
     # the GCD(capacity, LINEAR_CONSTANT) = 1 so that all buckets can be probed.
     __LINEAR_CONSTANT = 17
 
-    def __init__(self, capacity = 7, loadFactor = 0.65):
+    def __init__(self, capacity = 7, loadFactor = 0.35):
         super().__init__(capacity, loadFactor)
 
     def _probe(self, x):
